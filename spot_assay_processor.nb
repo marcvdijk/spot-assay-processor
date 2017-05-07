@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     38546,        773]
-NotebookOptionsPosition[     37400,        733]
-NotebookOutlinePosition[     37755,        749]
-CellTagsIndexPosition[     37712,        746]
+NotebookDataLength[     39938,        801]
+NotebookOptionsPosition[     38792,        761]
+NotebookOutlinePosition[     39147,        777]
+CellTagsIndexPosition[     39104,        774]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -187,11 +187,11 @@ to process and optionally a reference image using a common system file \
 selection dialog. You can test the script by using the test images shipped \
 with the software (condition-x.png and the reference image control.png). \
 Mathematica will handle most common image file formats automatically.\n\nOf \
-the 3 program parameters you can set (",
+the 4 program parameters you can set (",
  StyleBox["imagegrid",
   FontSlant->"Italic"],
  ", ",
- StyleBox["padding",
+ StyleBox["padding, partionpadding",
   FontSlant->"Italic"],
  " and ",
  StyleBox["tophatr",
@@ -202,12 +202,18 @@ the 3 program parameters you can set (",
  " needs to match the grid layout of the colonies in your image as columns x \
 rows. For the test images you need to set this parameter to {4, 12}. Please \
 note that all the images you process in one run of the script need to have \
-the same grid layout.\n\nThe program outputs a bar graph with a sensitivity \
-value between 0 and 1 for every row in each of the images you supplied. In \
-addition the sensitivity data for all images are exported to an Excel .xls \
-file names \[OpenCurlyDoubleQuote]spottingdata.xls\[CloseCurlyDoubleQuote] by \
-default in the same location as where the spot_assay_processor.nb notebook is \
-located. The path to this file is defined in the ",
+the same grid layout.\nIn case one is only interested in measuring \
+sensitivity in colony growth that set the ",
+ StyleBox["onlysensitive",
+  FontSlant->"Italic"],
+ " parameter to true. All growth rates will be relative to the control where \
+a test can never grow more than the control. \n\nThe program outputs a bar \
+graph with a sensitivity value between 0 and 1 for every row in each of the \
+images you supplied. In addition the sensitivity data for all images are \
+exported to an Excel .xls file names \[OpenCurlyDoubleQuote]spottingdata.xls\
+\[CloseCurlyDoubleQuote] by default in the same location as where the \
+spot_assay_processor.nb notebook is located. The path to this file is defined \
+in the ",
  StyleBox["outputexcelpath",
   FontSlant->"Italic"],
  " variable.\n"
@@ -217,7 +223,9 @@ located. The path to this file is defined in the ",
    3.686834898686038*^9, 3.686834929387603*^9}, {3.686834960730617*^9, 
    3.68683505452837*^9}, {3.686835104826482*^9, 3.6868352636484003`*^9}, {
    3.686835316061511*^9, 3.686835363440543*^9}, {3.686835396180819*^9, 
-   3.686835626058785*^9}, {3.686974893007401*^9, 3.686974903820449*^9}}],
+   3.686835626058785*^9}, {3.686974893007401*^9, 3.686974903820449*^9}, {
+   3.7031768323805857`*^9, 3.70317684901225*^9}, {3.703177218880623*^9, 
+   3.703177297916593*^9}, {3.7031773686413937`*^9, 3.703177402624864*^9}}],
 
 Cell[TextData[StyleBox["Program settings", "Section"]], "Text",
  CellChangeTimes->{
@@ -233,9 +241,15 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"padding", " ", "=", " ", "0.2"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  StyleBox[
-   RowBox[{
-    RowBox[{"tophatr", " ", "=", " ", "20"}], ";"}], "Input"], 
+  RowBox[{"partitionpadding", " ", "=", " ", "Black"}], 
+  ";"}], "\[IndentingNewLine]", 
+ StyleBox[
+  RowBox[{
+   RowBox[{"tophatr", " ", "=", " ", "20"}], ";"}], 
+  "Input"], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"onlysensitive", " ", "=", " ", "False"}], ";"}], 
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{"SELECTING", " ", "FILES"}], "*)"}]}], "\[IndentingNewLine]", 
@@ -334,14 +348,11 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{
     RowBox[{"imagegrid", "[", 
-     RowBox[{"[", "2", "]"}], "]"}], " ", "-", " ", "padding"}], ";"}], "  ", 
-  
-  RowBox[{"(*", 
-   RowBox[{
-   "apply", " ", "bit", " ", "of", " ", "padding", " ", "to", " ", "the", " ",
-     "column", " ", "height"}], "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
+     RowBox[{"[", "2", "]"}], "]"}], " ", "-", " ", "padding"}], ";", "  ", 
+   RowBox[{"(*", 
+    RowBox[{
+    "apply", " ", "bit", " ", "of", " ", "padding", " ", "to", " ", "the", 
+     " ", "column", " ", "height"}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{"PartitionAndCount", "=", " ", 
     RowBox[{"Function", "[", 
      RowBox[{"img", ",", "\[IndentingNewLine]", 
@@ -352,7 +363,8 @@ Cell[BoxData[{
           RowBox[{
            RowBox[{"ImageDimensions", "[", "img", "]"}], "/", "imagegrid"}], 
           ",", " ", 
-          RowBox[{"Padding", "\[Rule]", "Black"}]}], " ", "]"}], ",", " ", 
+          RowBox[{"Padding", "\[Rule]", "partitionpadding"}]}], " ", "]"}], 
+        ",", " ", 
         RowBox[{"{", "2", "}"}]}], "]"}]}], "\[IndentingNewLine]", "]"}]}], 
    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", 
@@ -389,7 +401,19 @@ Cell[BoxData[{
       RowBox[{"PartitionAndCount", "[", 
        RowBox[{"ProcessImage", "[", 
         RowBox[{"Import", "[", "controlimagepath", "]"}], "]"}], "]"}]}], 
-     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Replace", " ", "no", " ", "growth", " ", "0", " ", "by", " ", "1", " ", 
+    "to", " ", "prevent", " ", "division", " ", "by", " ", "0", " ", 
+    "error"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"controlcount", " ", "=", " ", 
+    RowBox[{"controlcount", " ", "/.", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", " ", "\[Rule]", " ", "1"}], "}"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"collecteddata", " ", "=", " ", 
    RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
@@ -432,20 +456,22 @@ Cell[BoxData[{
      "\[IndentingNewLine]", 
      RowBox[{"(*", 
       RowBox[{
+       RowBox[{"If", " ", "onlysensitive"}], ",", " ", 
        RowBox[{
-       "Replace", " ", "all", " ", "normalized", " ", "count", " ", 
+       "replace", " ", "all", " ", "normalized", " ", "count", " ", 
         "differces", " ", "larger", " ", "than", " ", "0", " ", "by", " ", 
         "0.", " ", "For", " ", "sensitivity", " ", "data"}], ",", " ", 
        RowBox[{
        "growth", " ", "should", " ", "not", " ", "be", " ", "more", " ", 
         "than", " ", "control"}]}], "*)"}], "\[IndentingNewLine]", 
-     RowBox[{"whitecount", " ", "=", 
-      RowBox[{"PositiveReplace", "[", "whitecount", "]"}]}], ";", 
-     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{"onlysensitive", ",", " ", 
+       RowBox[{"whitecount", " ", "=", 
+        RowBox[{"PositiveReplace", "[", "whitecount", "]"}]}], ",", " ", 
+       "whitecount"}], "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
      RowBox[{"(*", 
-      RowBox[{
-      "Average", " ", "of", " ", "absolute", " ", "values", " ", "in", " ", 
-       "the", " ", 
+      RowBox[{"Average", " ", "of", " ", "values", " ", "in", " ", "the", " ", 
        RowBox[{"series", ".", " ", "If"}], " ", "0", " ", "than", " ", "case",
         " ", "not", " ", "sensitive", " ", "for", " ", "condition", 
        "\[IndentingNewLine]", "if", " ", "1", " ", "then", " ", "fully", " ", 
@@ -454,14 +480,13 @@ Cell[BoxData[{
         RowBox[{"no", " ", "growth"}], ")"}]}], "*)"}], "\[IndentingNewLine]", 
      RowBox[{"sensitivity", " ", "=", " ", 
       RowBox[{"N", "[", 
-       RowBox[{"Abs", "[", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"Map", "[", 
-           RowBox[{"Total", ",", "whitecount", ",", 
-            RowBox[{"{", "1", "}"}]}], "]"}], ")"}], "/", 
-         RowBox[{"imagegrid", "[", 
-          RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "]"}]}], ";", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"Map", "[", 
+          RowBox[{"Total", ",", "whitecount", ",", 
+           RowBox[{"{", "1", "}"}]}], "]"}], ")"}], "/", 
+        RowBox[{"imagegrid", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], ";", 
      "\[IndentingNewLine]", 
      RowBox[{"AppendTo", "[", 
       RowBox[{"collecteddata", ",", " ", "sensitivity"}], "]"}], ";", 
@@ -701,7 +726,10 @@ Cell[BoxData[{
    3.686840316340252*^9, 3.686840342031272*^9}, {3.686840763270852*^9, 
    3.686840769899781*^9}, 3.686840825530932*^9, {3.686841038915627*^9, 
    3.686841048287044*^9}, {3.6868416589933157`*^9, 3.686841664517919*^9}, {
-   3.686841761456266*^9, 3.6868417907233963`*^9}}],
+   3.686841761456266*^9, 3.6868417907233963`*^9}, {3.703176538446649*^9, 
+   3.703176552920471*^9}, {3.703176605462759*^9, 3.703176605654847*^9}, {
+   3.703176962330885*^9, 3.703176974457706*^9}, {3.7031770556883583`*^9, 
+   3.703177139266728*^9}}],
 
 Cell[BoxData[""], "Input",
  CellChangeTimes->{3.675575702073803*^9},
@@ -732,7 +760,7 @@ Cell[BoxData[""], "Input",
  NumberMarks->False]
 },
 WindowSize->{1043, 646},
-WindowMargins->{{21, Automatic}, {Automatic, 12}},
+WindowMargins->{{Automatic, 19}, {Automatic, 38}},
 FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (July 28, \
 2016)",
 StyleDefinitions->"Default.nb"
@@ -767,14 +795,14 @@ Cell[7143, 158, 824, 13, 30, "Item"]
 Cell[7982, 174, 92, 1, 32, "Input"],
 Cell[8077, 177, 246, 4, 48, "Input",
  Evaluatable->False],
-Cell[8326, 183, 1850, 36, 239, "Text"],
-Cell[10179, 221, 155, 2, 47, "Text"],
-Cell[10337, 225, 26002, 478, 1335, "Input"],
-Cell[36342, 705, 89, 2, 32, "Input"],
-Cell[36434, 709, 89, 2, 32, "Input"],
-Cell[36526, 713, 91, 2, 32, "Input"],
-Cell[36620, 717, 89, 2, 32, "Input"],
-Cell[36712, 721, 684, 10, 32, "Input"]
+Cell[8326, 183, 2285, 44, 277, "Text"],
+Cell[10614, 229, 155, 2, 47, "Text"],
+Cell[10772, 233, 26959, 498, 1440, "Input"],
+Cell[37734, 733, 89, 2, 32, "Input"],
+Cell[37826, 737, 89, 2, 32, "Input"],
+Cell[37918, 741, 91, 2, 32, "Input"],
+Cell[38012, 745, 89, 2, 32, "Input"],
+Cell[38104, 749, 684, 10, 32, "Input"]
 }
 ]
 *)
