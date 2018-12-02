@@ -27,7 +27,7 @@ The notebook processes these images in the following successive steps:
 * In case of a control image, a final value for sensitivity is calculated by averaging the difference in growth over the
   dilution series.
 
-###Program usage
+### Program usage
 The interactive notebook will ask you to define one or multiple image files to process and optionally a reference image.
 You can test the script by using the test images shipped with the software (condition-x.png and the reference image control.png).
 Mathematica will handle most common image file formats automatically.
@@ -41,5 +41,5 @@ In addition the sensitivity data for all images are exported to an Excel .xls fi
 same location as where the spot_assay_processor.nb notebook is located. The path to this file is defined in the outputexcelpath
 variable.
 
-###Requirements
+### Requirements
 Wolfram Mathematica version 10.x or higher
